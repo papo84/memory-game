@@ -1,21 +1,21 @@
 // Data to render on cards when card flips.
 const data = [
-  `<img class="img-fluid card-img" src="./img/fury.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/fury.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/america.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/america.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/falcon.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/falcon.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/hulk.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/hulk.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/vision.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/vision.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/black-panther.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/black-panther.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/thanos.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/thanos.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/spider.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/spider.jpeg" />`
+  `<img class="img-fluid card-img" src="./img/1.png" />`,
+  `<img class="img-fluid card-img" src="./img/1.png" />`,
+  `<img class="img-fluid card-img" src="./img/2.png" />`,
+  `<img class="img-fluid card-img" src="./img/2.png" />`,
+  `<img class="img-fluid card-img" src="./img/3.png" />`,
+  `<img class="img-fluid card-img" src="./img/3.png" />`,
+  `<img class="img-fluid card-img" src="./img/4.png" />`,
+  `<img class="img-fluid card-img" src="./img/4.png" />`,
+  `<img class="img-fluid card-img" src="./img/5.png" />`,
+  `<img class="img-fluid card-img" src="./img/5.png" />`,
+  `<img class="img-fluid card-img" src="./img/6.png" />`,
+  `<img class="img-fluid card-img" src="./img/6.png" />`,
+  `<img class="img-fluid card-img" src="./img/7.png" />`,
+  `<img class="img-fluid card-img" src="./img/7.png" />`,
+  `<img class="img-fluid card-img" src="./img/8.png" />`,
+  `<img class="img-fluid card-img" src="./img/8.png" />`
 ];
 let opened = []; // Opened cards indexes.
 let temp2Opened = []; // temporary 2 opened cards indexes.
