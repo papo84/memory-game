@@ -87,13 +87,24 @@ const registerClickEvent = (index, cards) => {
       // If 2 successive cards clicked are same push there index in opened array.
       if (cards[temp2Opened[0]] === cards[temp2Opened[1]]) {
         opened = _.uniq([...opened, ...temp2Opened]);
+        setTimeout(() => {
+          //  Disappear cards that are matched
+          $('#ele-' + opened[opened.length-1])[0].style.backgroundImage = 'url()';
+          $('#ele-' + opened[opened.length-2])[0].style.backgroundImage = 'url()';
+          $('#ele-' + opened[opened.length-1])[0].style.borderColor = 'white';
+          $('#ele-' + opened[opened.length-2])[0].style.borderColor = 'white';
+          $('#ele-' + opened[opened.length-1])[0].style.visibility = 'hidden';
+          $('#ele-' + opened[opened.length-2])[0].style.visibility = 'hidden';
+          $('#ele-' + opened[opened.length-1])[0].children[0].style.visibility = 'hidden';
+          $('#ele-' + opened[opened.length-2])[0].children[0].style.visibility = 'hidden';
+        }, 1200);
       } else {
         // Animation stuff
         const temp2OpenedCopy = [...temp2Opened];
         setTimeout(() => {
           $("#ele-" + temp2OpenedCopy[0]).removeClass("board-flip");
           $("#ele-" + temp2OpenedCopy[1]).removeClass("board-flip");
-        }, 400);
+        }, 1400);
 
         // bind click event back.
         mainCard.bind({
@@ -110,14 +121,16 @@ const registerClickEvent = (index, cards) => {
     }
 
     // Only keep open those cards which matched successfully else make them hidden.
-    cards.forEach((element, index) => {
-      if (!opened.includes(index)) {
-        setTimeout(() => {
-          $("#ele-" + index + "-inner").css("visibility", "hidden");
-        }, 500);
-        _.remove(opened, o => o === index);
-      }
-    });
+    if((opened.length % 2) == 0) {
+      cards.forEach((element, index) => {
+        if (!opened.includes(index)) {
+          setTimeout(() => {
+            $("#ele-" + index + "-inner").css("visibility", "hidden");
+          }, 1500);
+          _.remove(opened, o => o === index);
+        }
+      });
+    }
 
     // If all the cards are opened show congratulation pop up.
     if (opened.length === data.length) {
