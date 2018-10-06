@@ -1,4 +1,4 @@
-# Avengers Memory Game
+# Stav & Gilad Memory Game
 Browser-based card matching game. Sometimes also known as `Concentration`.
 
 ## How to play
