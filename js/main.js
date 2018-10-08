@@ -34,10 +34,31 @@ const svgStar = `<svg height="25" width="23" class="star rating" data-rating="5"
  * @returns {Array} Shuffled array
  */
 const shuffleCards = cardsList => {
-  return [...cardsList].sort(() => {
-    return 0.5 - Math.random();
+  let shuffled = [...cardsList].sort(() => {
+    let rand = 0.5 - Math.random();
+    return rand;
   });
+  return shuffled;
 };
+
+const shuffle = function (array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
 
 /**
  * @description Calculate star ratings according to time and number of moves.
@@ -143,7 +164,7 @@ const registerClickEvent = (index, cards) => {
  * @description Reset board to initial state.
  */
 const resetBoard = () => {
-  const shuffledCards = shuffleCards(data);
+  const shuffledCards = shuffle(data);
   shuffledCards.forEach((element, index) => {
     // Append cards to the game board.
     $("#game-board").append(
