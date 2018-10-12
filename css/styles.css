@@ -4,6 +4,18 @@
   margin: 0 auto;
 }
 
+.game-board-8 {
+  width: 80vh !important;
+}
+
+.game-board-16 {
+  width: 140vh !important;
+}
+
+.game-board-24 {
+  width: 120vh !important;
+}
+
 .board {
   width: 18vh;
   height: 18vh;
@@ -17,6 +29,21 @@
   background-repeat: no-repeat;
   background-position: center;
   transition: all 0.4s ease;
+}
+
+.board-8 {
+  width: 18vh !important;
+  height: 18vh !important;
+}
+
+.board-16 {
+  width: 15vh !important;
+  height: 15vh !important;
+}
+
+.board-24 {
+  width: 12vh !important;
+  height: 12vh !important;
 }
 
 .card-matched {
@@ -36,6 +63,21 @@
 .card-img {
   width: auto;
   height: 15vh;
+}
+  
+.card-img-8 {
+  width: auto;
+  height: 15vh;
+}
+  
+.card-img-16 {
+  width: auto;
+  height: 12.5vh;
+}
+  
+.card-img-24 {
+  width: auto;
+  height: 10vh;
 }
 
 .game-stats {
