@@ -1,13 +1,13 @@
 const imagesNames = [];
-for (let i=0; i<16; i++) imagesNames.push((i+1).toString());
-const arrOfValidCardsNumber = ["8", "16", "32"]
+for (let i=0; i<24; i++) imagesNames.push((i+1).toString());
+const arrOfValidCardsNumber = ["8", "16", "24"]
 const getCards = (numberOfCards) => {
     if(arrOfValidCardsNumber.indexOf(numberOfCards) == -1)
         throw new Error('Invalid cards number');
     //  Shuffle the cards and slice to the required number
     let shuffledNames = shuffle(imagesNames).slice(0, numberOfCards)
     //  Duplicate the cards to get pairs
-    shuffledNames = [...shuffledNames, ...shuffledNames];
+    shuffledNames = shuffle([...shuffledNames, ...shuffledNames]);
     //  Turn the names into HTML elements
     return shuffledNames.map((item) => {return `<img class="img-fluid card-img" src="./img/${item}.png" />`});
 }

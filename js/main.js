@@ -1,25 +1,6 @@
 import { getCards } from "./cards.js"
 let data;
 let chosenLevel = 8;
-// Data to render on cards when card flips.
-// const data = [
-//   `<img class="img-fluid card-img" src="./img/1.png" />`,
-//   `<img class="img-fluid card-img" src="./img/1.png" />`,
-//   `<img class="img-fluid card-img" src="./img/2.png" />`,
-//   `<img class="img-fluid card-img" src="./img/2.png" />`,
-//   `<img class="img-fluid card-img" src="./img/3.png" />`,
-//   `<img class="img-fluid card-img" src="./img/3.png" />`,
-//   `<img class="img-fluid card-img" src="./img/4.png" />`,
-//   `<img class="img-fluid card-img" src="./img/4.png" />`,
-//   `<img class="img-fluid card-img" src="./img/5.png" />`,
-//   `<img class="img-fluid card-img" src="./img/5.png" />`,
-//   `<img class="img-fluid card-img" src="./img/6.png" />`,
-//   `<img class="img-fluid card-img" src="./img/6.png" />`,
-//   `<img class="img-fluid card-img" src="./img/7.png" />`,
-//   `<img class="img-fluid card-img" src="./img/7.png" />`,
-//   `<img class="img-fluid card-img" src="./img/8.png" />`,
-//   `<img class="img-fluid card-img" src="./img/8.png" />`
-// ];
 let opened = []; // Opened cards indexes.
 let temp2Opened = []; // temporary 2 opened cards indexes.
 let numberOfSteps = 0; // No of clicks on the cards.
@@ -227,5 +208,13 @@ $(".restart-game").click((val) => {
   chosenLevel =  val.target.value ? val.target.value : chosenLevel;
   data = getCards(chosenLevel);
   resetGame();
+  let arrChangeDivClass = document.getElementsByClassName('board');
+  //  Change cards sizes based on level selected
+  for(let i=0; i< arrChangeDivClass.length; i++) arrChangeDivClass[i].className += ` board-${chosenLevel}`;
+  //  Change image sizes based on level selected
+  arrChangeDivClass = document.getElementsByClassName('card-img');
+  for(let i=0; i< arrChangeDivClass.length; i++) arrChangeDivClass[i].className += ` card-img-${chosenLevel}`;
+  //  Change board size based on level selected
+  document.getElementById('game-board').className += ` game-board-${chosenLevel}`;
   $("#game-modal").modal("hide");
 });
