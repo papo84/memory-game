@@ -1,22 +1,6 @@
-// Data to render on cards when card flips.
-const data = [
-  `<img class="img-fluid card-img" src="./img/fury.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/fury.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/america.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/america.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/falcon.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/falcon.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/hulk.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/hulk.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/vision.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/vision.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/black-panther.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/black-panther.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/thanos.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/thanos.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/spider.jpeg" />`,
-  `<img class="img-fluid card-img" src="./img/spider.jpeg" />`
-];
+import { getCards } from "./cards.js"
+let data;
+let chosenLevel = 8;
 let opened = []; // Opened cards indexes.
 let temp2Opened = []; // temporary 2 opened cards indexes.
 let numberOfSteps = 0; // No of clicks on the cards.
@@ -27,17 +11,6 @@ let elapsed = 0; // Elapsed time in ms.
 const svgStar = `<svg height="25" width="23" class="star rating" data-rating="5">
 <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
 </svg>`;
-
-/**
- * @description Shuffles cards randomly
- * @param {Array} cardsList
- * @returns {Array} Shuffled array
- */
-const shuffleCards = cardsList => {
-  return [...cardsList].sort(() => {
-    return 0.5 - Math.random();
-  });
-};
 
 /**
  * @description Calculate star ratings according to time and number of moves.
@@ -87,13 +60,20 @@ const registerClickEvent = (index, cards) => {
       // If 2 successive cards clicked are same push there index in opened array.
       if (cards[temp2Opened[0]] === cards[temp2Opened[1]]) {
         opened = _.uniq([...opened, ...temp2Opened]);
+        setTimeout(() => {
+          //  Disappear cards that are matched
+          $('#ele-' + opened[opened.length-1]).addClass("card-matched");
+          $('#ele-' + opened[opened.length-2]).addClass("card-matched");
+          $('#ele-' + opened[opened.length-1]+ "-inner").addClass("card-matched-inner");
+          $('#ele-' + opened[opened.length-2]+ "-inner").addClass("card-matched-inner");
+        }, 1200);
       } else {
         // Animation stuff
         const temp2OpenedCopy = [...temp2Opened];
         setTimeout(() => {
           $("#ele-" + temp2OpenedCopy[0]).removeClass("board-flip");
           $("#ele-" + temp2OpenedCopy[1]).removeClass("board-flip");
-        }, 400);
+        }, 1400);
 
         // bind click event back.
         mainCard.bind({
@@ -110,14 +90,16 @@ const registerClickEvent = (index, cards) => {
     }
 
     // Only keep open those cards which matched successfully else make them hidden.
-    cards.forEach((element, index) => {
-      if (!opened.includes(index)) {
-        setTimeout(() => {
-          $("#ele-" + index + "-inner").css("visibility", "hidden");
-        }, 500);
-        _.remove(opened, o => o === index);
-      }
-    });
+    if((opened.length % 2) == 0) {
+      cards.forEach((element, index) => {
+        if (!opened.includes(index)) {
+          setTimeout(() => {
+            $("#ele-" + index + "-inner").css("visibility", "hidden");
+          }, 1500);
+          _.remove(opened, o => o === index);
+        }
+      });
+    }
 
     // If all the cards are opened show congratulation pop up.
     if (opened.length === data.length) {
@@ -130,8 +112,8 @@ const registerClickEvent = (index, cards) => {
  * @description Reset board to initial state.
  */
 const resetBoard = () => {
-  const shuffledCards = shuffleCards(data);
-  shuffledCards.forEach((element, index) => {
+  // let shuffledCards = data;
+  data.forEach((element, index) => {
     // Append cards to the game board.
     $("#game-board").append(
       `<div id="ele-${index}" class="board">
@@ -142,7 +124,7 @@ const resetBoard = () => {
     $("#ele-" + index + "-inner").css("visibility", "hidden");
 
     // Click events on cards.
-    registerClickEvent(index, shuffledCards);
+    registerClickEvent(index, data);
   });
 };
 
@@ -221,7 +203,18 @@ const showCongratulationPopUp = () => {
 
 // Show start game modal on the first load.
 $("#game-modal").modal("show");
-$(".restart-game").click(() => {
+$(".restart-game").click((val) => {
+  //  First time this is called, must contain a value. If there is no value, it is restart, in this case, use the latest
+  chosenLevel =  val.target.value ? val.target.value : chosenLevel;
+  data = getCards(chosenLevel);
   resetGame();
+  let arrChangeDivClass = document.getElementsByClassName('board');
+  //  Change cards sizes based on level selected
+  for(let i=0; i< arrChangeDivClass.length; i++) arrChangeDivClass[i].className += ` board-${chosenLevel}`;
+  //  Change image sizes based on level selected
+  arrChangeDivClass = document.getElementsByClassName('card-img');
+  for(let i=0; i< arrChangeDivClass.length; i++) arrChangeDivClass[i].className += ` card-img-${chosenLevel}`;
+  //  Change board size based on level selected
+  document.getElementById('game-board').className += ` game-board-${chosenLevel}`;
   $("#game-modal").modal("hide");
 });
