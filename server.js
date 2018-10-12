@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 
 console.log(__dirname + '/index.html');
-app.use(express.static(__dirname + '/pairs'));
+app.use(express.static(__dirname));
 
 let port = 11235;
 app.listen(port);

@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
     crossorigin="anonymous">
   <link href="css/styles.css" rel="stylesheet">
+  <script type="module"></script>
 </head>
 
 <body>
@@ -24,7 +25,7 @@
   <section id="game-board"></section>
 
   <!-- Footer of game contains game states -->
-  <footer style="width: 90%">
+  <footer style="width: 100%">
     <div class="row text-center">
       <div class="col-md-4 game-stats">
         Time:
@@ -57,8 +58,16 @@
         <div class="modal-body">
           Let's start the game.
         </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary restart-game">Start Game</button>
+        <div class="modal-footers">
+          <div class="modal-footer">
+            <button class="btn btn-primary btn-start restart-game" value=8>Easy</button>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary btn-start restart-game" value=16>Hard</button>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-danger btn-start restart-game" value=32>God Like!</button>
+          </div>
         </div>
       </div>
     </div>
@@ -70,7 +79,8 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.5/lodash.min.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/cards.js" type="module"></script>
+  <script src="js/main.js" type="module"></script>
 </body>
 
 </html>

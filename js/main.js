@@ -1,22 +1,25 @@
+import { getCards } from "./cards.js"
+let data;
+let chosenLevel = 8;
 // Data to render on cards when card flips.
-const data = [
-  `<img class="img-fluid card-img" src="./img/1.png" />`,
-  `<img class="img-fluid card-img" src="./img/1.png" />`,
-  `<img class="img-fluid card-img" src="./img/2.png" />`,
-  `<img class="img-fluid card-img" src="./img/2.png" />`,
-  `<img class="img-fluid card-img" src="./img/3.png" />`,
-  `<img class="img-fluid card-img" src="./img/3.png" />`,
-  `<img class="img-fluid card-img" src="./img/4.png" />`,
-  `<img class="img-fluid card-img" src="./img/4.png" />`,
-  `<img class="img-fluid card-img" src="./img/5.png" />`,
-  `<img class="img-fluid card-img" src="./img/5.png" />`,
-  `<img class="img-fluid card-img" src="./img/6.png" />`,
-  `<img class="img-fluid card-img" src="./img/6.png" />`,
-  `<img class="img-fluid card-img" src="./img/7.png" />`,
-  `<img class="img-fluid card-img" src="./img/7.png" />`,
-  `<img class="img-fluid card-img" src="./img/8.png" />`,
-  `<img class="img-fluid card-img" src="./img/8.png" />`
-];
+// const data = [
+//   `<img class="img-fluid card-img" src="./img/1.png" />`,
+//   `<img class="img-fluid card-img" src="./img/1.png" />`,
+//   `<img class="img-fluid card-img" src="./img/2.png" />`,
+//   `<img class="img-fluid card-img" src="./img/2.png" />`,
+//   `<img class="img-fluid card-img" src="./img/3.png" />`,
+//   `<img class="img-fluid card-img" src="./img/3.png" />`,
+//   `<img class="img-fluid card-img" src="./img/4.png" />`,
+//   `<img class="img-fluid card-img" src="./img/4.png" />`,
+//   `<img class="img-fluid card-img" src="./img/5.png" />`,
+//   `<img class="img-fluid card-img" src="./img/5.png" />`,
+//   `<img class="img-fluid card-img" src="./img/6.png" />`,
+//   `<img class="img-fluid card-img" src="./img/6.png" />`,
+//   `<img class="img-fluid card-img" src="./img/7.png" />`,
+//   `<img class="img-fluid card-img" src="./img/7.png" />`,
+//   `<img class="img-fluid card-img" src="./img/8.png" />`,
+//   `<img class="img-fluid card-img" src="./img/8.png" />`
+// ];
 let opened = []; // Opened cards indexes.
 let temp2Opened = []; // temporary 2 opened cards indexes.
 let numberOfSteps = 0; // No of clicks on the cards.
@@ -27,38 +30,6 @@ let elapsed = 0; // Elapsed time in ms.
 const svgStar = `<svg height="25" width="23" class="star rating" data-rating="5">
 <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
 </svg>`;
-
-/**
- * @description Shuffles cards randomly
- * @param {Array} cardsList
- * @returns {Array} Shuffled array
- */
-const shuffleCards = cardsList => {
-  let shuffled = [...cardsList].sort(() => {
-    let rand = 0.5 - Math.random();
-    return rand;
-  });
-  return shuffled;
-};
-
-const shuffle = function (array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
-
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
-
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
-}
 
 /**
  * @description Calculate star ratings according to time and number of moves.
@@ -110,14 +81,10 @@ const registerClickEvent = (index, cards) => {
         opened = _.uniq([...opened, ...temp2Opened]);
         setTimeout(() => {
           //  Disappear cards that are matched
-          $('#ele-' + opened[opened.length-1])[0].style.backgroundImage = 'url()';
-          $('#ele-' + opened[opened.length-2])[0].style.backgroundImage = 'url()';
-          $('#ele-' + opened[opened.length-1])[0].style.borderColor = 'white';
-          $('#ele-' + opened[opened.length-2])[0].style.borderColor = 'white';
-          $('#ele-' + opened[opened.length-1])[0].style.visibility = 'hidden';
-          $('#ele-' + opened[opened.length-2])[0].style.visibility = 'hidden';
-          $('#ele-' + opened[opened.length-1])[0].children[0].style.visibility = 'hidden';
-          $('#ele-' + opened[opened.length-2])[0].children[0].style.visibility = 'hidden';
+          $('#ele-' + opened[opened.length-1]).addClass("card-matched");
+          $('#ele-' + opened[opened.length-2]).addClass("card-matched");
+          $('#ele-' + opened[opened.length-1]+ "-inner").addClass("card-matched-inner");
+          $('#ele-' + opened[opened.length-2]+ "-inner").addClass("card-matched-inner");
         }, 1200);
       } else {
         // Animation stuff
@@ -164,8 +131,8 @@ const registerClickEvent = (index, cards) => {
  * @description Reset board to initial state.
  */
 const resetBoard = () => {
-  const shuffledCards = shuffle(data);
-  shuffledCards.forEach((element, index) => {
+  // let shuffledCards = data;
+  data.forEach((element, index) => {
     // Append cards to the game board.
     $("#game-board").append(
       `<div id="ele-${index}" class="board">
@@ -176,7 +143,7 @@ const resetBoard = () => {
     $("#ele-" + index + "-inner").css("visibility", "hidden");
 
     // Click events on cards.
-    registerClickEvent(index, shuffledCards);
+    registerClickEvent(index, data);
   });
 };
 
@@ -255,7 +222,10 @@ const showCongratulationPopUp = () => {
 
 // Show start game modal on the first load.
 $("#game-modal").modal("show");
-$(".restart-game").click(() => {
+$(".restart-game").click((val) => {
+  //  First time this is called, must contain a value. If there is no value, it is restart, in this case, use the latest
+  chosenLevel =  val.target.value ? val.target.value : chosenLevel;
+  data = getCards(chosenLevel);
   resetGame();
   $("#game-modal").modal("hide");
 });
