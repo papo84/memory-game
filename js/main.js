@@ -7,6 +7,7 @@ let numberOfSteps = 0; // No of clicks on the cards.
 let timer;
 let currentTime = "0 : 00"; // Formatted running time to show on screen.
 let elapsed = 0; // Elapsed time in ms.
+let cont = true;
 
 const svgStar = `<svg height="25" width="23" class="star rating" data-rating="5">
 <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
@@ -20,9 +21,9 @@ const svgStar = `<svg height="25" width="23" class="star rating" data-rating="5"
  */
 const calculateStarRatings = (time, moves) => {
   const timeInSeconds = time / 1000;
-  if (timeInSeconds < 30 && moves < 20) {
+  if (timeInSeconds < 45 && moves < 20) {
     return svgStar + svgStar + svgStar;
-  } else if (timeInSeconds < 45 && moves < 30) {
+  } else if (timeInSeconds < 60 && moves < 30) {
     return svgStar + svgStar;
   } else {
     return svgStar;
@@ -38,72 +39,77 @@ const registerClickEvent = (index, cards) => {
   const mainCard = $("#ele-" + index);
   // Register click events on the cards.
   mainCard.click(() => {
-    // Change star rating on every flip of the card.
-    mainCard.addClass("board-flip");
-    $("#star-ratings").html(calculateStarRatings(elapsed, numberOfSteps));
+    //  If there are already 2 open cards that are still not faced down (or disappeared) don't continue
+    if(cont){
+      // Change star rating on every flip of the card.
+      mainCard.addClass("board-flip");
+      $("#star-ratings").html(calculateStarRatings(elapsed, numberOfSteps));
 
-    // Using seTimeouts for animation purposes.
-    setTimeout(() => {
-      $("#ele-" + index + "-inner").css("visibility", "visible");
-    }, 100);
-    
-    // append index of card values.
-    temp2Opened.push(index);
-    opened.push(index);
-    mainCard.unbind("click");
-    
-    if (temp2Opened.length === 2) {
-      // Increase number of steps whenever user clicks a card.
-      numberOfSteps++;
-      $("#no-of-steps").text(numberOfSteps);
+      // Using seTimeouts for animation purposes.
+      setTimeout(() => {
+        $("#ele-" + index + "-inner").css("visibility", "visible");
+      }, 100);
+      
+      // append index of card values.
+      temp2Opened.push(index);
+      opened.push(index);
+      mainCard.unbind("click");
+      
+      if (temp2Opened.length === 2) {
+        cont = false;
+        // Increase number of steps whenever user clicks a card.
+        numberOfSteps++;
+        $("#no-of-steps").text(numberOfSteps);
 
-      // If 2 successive cards clicked are same push there index in opened array.
-      if (cards[temp2Opened[0]] === cards[temp2Opened[1]]) {
-        opened = _.uniq([...opened, ...temp2Opened]);
-        setTimeout(() => {
-          //  Disappear cards that are matched
-          $('#ele-' + opened[opened.length-1]).addClass("card-matched");
-          $('#ele-' + opened[opened.length-2]).addClass("card-matched");
-          $('#ele-' + opened[opened.length-1]+ "-inner").addClass("card-matched-inner");
-          $('#ele-' + opened[opened.length-2]+ "-inner").addClass("card-matched-inner");
-        }, 1200);
-      } else {
-        // Animation stuff
-        const temp2OpenedCopy = [...temp2Opened];
-        setTimeout(() => {
-          $("#ele-" + temp2OpenedCopy[0]).removeClass("board-flip");
-          $("#ele-" + temp2OpenedCopy[1]).removeClass("board-flip");
-        }, 1400);
-
-        // bind click event back.
-        mainCard.bind({
-          click: registerClickEvent(temp2Opened[0], cards)
-        });
-        mainCard.bind({
-          click: registerClickEvent(temp2Opened[1], cards)
-        });
-
-        // Remove them from opened array.
-        _.remove(opened, o => o === temp2Opened[0] || o === temp2Opened[1]);
-      }
-      temp2Opened = [];
-    }
-
-    // Only keep open those cards which matched successfully else make them hidden.
-    if((opened.length % 2) == 0) {
-      cards.forEach((element, index) => {
-        if (!opened.includes(index)) {
+        // If 2 successive cards clicked are same push there index in opened array.
+        if (cards[temp2Opened[0]] === cards[temp2Opened[1]]) {
+          opened = _.uniq([...opened, ...temp2Opened]);
           setTimeout(() => {
-            $("#ele-" + index + "-inner").css("visibility", "hidden");
-          }, 1500);
-          _.remove(opened, o => o === index);
-        }
-      });
-    }
+            //  Disappear cards that are matched
+            $('#ele-' + opened[opened.length-1]).addClass("card-matched");
+            $('#ele-' + opened[opened.length-2]).addClass("card-matched");
+            $('#ele-' + opened[opened.length-1]+ "-inner").addClass("card-matched-inner");
+            $('#ele-' + opened[opened.length-2]+ "-inner").addClass("card-matched-inner");
+          }, 1200);
+        } else {
+          // Animation stuff
+          const temp2OpenedCopy = [...temp2Opened];
+          setTimeout(() => {
+            $("#ele-" + temp2OpenedCopy[0]).removeClass("board-flip");
+            $("#ele-" + temp2OpenedCopy[1]).removeClass("board-flip");
+          }, 1400);
 
-    // If all the cards are opened show congratulation pop up.
-    if (opened.length === data.length) {
-      showCongratulationPopUp();
+          // bind click event back.
+          mainCard.bind({
+            click: registerClickEvent(temp2Opened[0], cards)
+          });
+          mainCard.bind({
+            click: registerClickEvent(temp2Opened[1], cards)
+          });
+
+          // Remove them from opened array.
+          _.remove(opened, o => o === temp2Opened[0] || o === temp2Opened[1]);
+        }
+        temp2Opened = [];
+      }
+
+      // Only keep open those cards which matched successfully else make them hidden.
+      if((opened.length % 2) == 0) {
+        cards.forEach((element, index) => {
+          if (!opened.includes(index)) {
+            setTimeout(() => {
+              $("#ele-" + index + "-inner").css("visibility", "hidden");
+              cont = true;
+            }, 1500);
+            _.remove(opened, o => o === index);
+          }
+        });
+      }
+
+      // If all the cards are opened show congratulation pop up.
+      if (opened.length === data.length) {
+        showCongratulationPopUp();
+      }
     }
   });
 };
