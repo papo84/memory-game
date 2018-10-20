@@ -63,21 +63,33 @@
 .card-img {
   width: auto;
   height: 15vh;
+  max-height: 100%;
+  vertical-align: top !important;
 }
   
 .card-img-8 {
   width: auto;
   height: 15vh;
+  max-height: 100%;
+  vertical-align: top !important;
 }
   
 .card-img-16 {
   width: auto;
   height: 12.5vh;
+  max-height: 100%;
+  vertical-align: top !important;
 }
   
 .card-img-24 {
-  width: auto;
+  width: 10vh;
   height: 10vh;
+  max-height: 100%;
+  vertical-align: top !important;
+}
+
+.div-inner {
+  height: 100%;
 }
 
 .game-stats {
