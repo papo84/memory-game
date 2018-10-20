@@ -117,7 +117,7 @@ const resetBoard = () => {
     // Append cards to the game board.
     $("#game-board").append(
       `<div id="ele-${index}" class="board">
-          <div id="ele-${index}-inner">${element}</div>
+          <div id="ele-${index}-inner" class="div-inner">${element}</div>
       </div>`
     );
     // Set visibility hidden for the card values.
