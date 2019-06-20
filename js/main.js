@@ -192,6 +192,7 @@ const resetGame = () => {
   opened = [];
   temp2Opened = [];
   $("#star-ratings").html(svgStar + svgStar + svgStar);
+  cont = true;
 };
 
 // Shows a modal with congratulations when a user wins the game.
