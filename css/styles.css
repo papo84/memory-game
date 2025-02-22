@@ -24,11 +24,13 @@
   border: 2px solid #bbb;
   padding: 1vh;
   font-size: 2em;
-  background-image: url("../img/unicorn.jpg");
+  background-image: url("../img/Kate.jpeg");
   background-size: 11vh;
   background-repeat: no-repeat;
   background-position: center;
   transition: all 0.4s ease;
+  transform-style: preserve-3d;
+  perspective: 1000px;
 }
 
 .board-8 {
@@ -57,7 +59,8 @@
 }
 
 .board-flip {
-  transform: rotateY(180deg)
+  transform: rotateY(180deg);
+  transition: transform 0.5s;
 }
   
 .card-img {

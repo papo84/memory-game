@@ -3,3 +3,5 @@ server.js
 package-lock.json
 package.json
 .vscode/
+img/.DS_Store
+.DS_Store

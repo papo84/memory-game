@@ -1,5 +1,5 @@
 const imagesNames = [];
-for (let i=0; i<24; i++) imagesNames.push((i+1).toString());
+for (let i=0; i<49; i++) imagesNames.push((i+1).toString());
 const arrOfValidCardsNumber = ["8", "16", "24"]
 const getCards = (numberOfCards) => {
     if(arrOfValidCardsNumber.indexOf(numberOfCards) == -1)
